@@ -2,10 +2,10 @@ import tkinter as tk
 
 """
     RootView.ControlView.TypeView
-    +----------------------+----------------------+
-    | StringButton         | RegexButton          |
-    | row=0, col=0         | row=0, col=1         |
-    +----------------------+----------------------+
+    +---------------------------------+---------------------------------+
+    | StringButton                    | RegexButton                     |
+    | row=0, col=0                    | row=0, col=1                    |
+    +---------------------------------+---------------------------------+
 """
 class TypeView(tk.Frame):
     def __init__(self, master, *args, **kwargs):
