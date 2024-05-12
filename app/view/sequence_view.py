@@ -12,14 +12,14 @@ class SequenceView(tk.Frame):
         super().__init__(master, *args, **kwargs)
 
         self.listbox = tk.Listbox(master=self)
-        self.listbox.grid(row=0, column=0, sticky="nswe")
+        self.listbox.grid(row=0, column=0, sticky="we")
         self.grid_rowconfigure(index=0, weight=1)
         self.grid_columnconfigure(index=0, weight=1)
         self.listbox.bind(sequence="<Button-1>", func=self.__on_item_hold)
         self.listbox.bind(sequence="<B1-Motion>", func=self.__on_item_drag)
         
         self.__scrollbar = tk.Scrollbar(master=self, orient="vertical", command=self.listbox.yview)
-        self.__scrollbar.grid(row=0, column=1, sticky="nswe")
+        self.__scrollbar.grid(row=0, column=1, sticky="ns")
 
         self.listbox.config(yscrollcommand=self.__scrollbar.set)
 

@@ -31,7 +31,7 @@ class FileView(tk.Frame):
         self.grid_rowconfigure(index=0, weight=1)
         self.grid_columnconfigure(index=2, weight=1)
     
-        self.__tooltip = Tooltip(master=self.__entry, text="Filepath will display here in this tooltip", delay=500, wraplength=300, background="#ffffcc", foreground="#333333")
+        self.tooltip = Tooltip(master=self.__entry, text="Filepath will display here in this tooltip", delay=500, wraplength=300, background="#ffffcc", foreground="#333333")
 
     def __trigger_browse_button(self):
         filepath = filedialog.askopenfilename(filetypes=[("LOG files", "*.log")])
@@ -42,4 +42,4 @@ class FileView(tk.Frame):
             filename = os.path.basename(p=filepath)[-max_chars:]
             self.__input.set(value=filename)
             self.__entry.config(state="disabled")
-            self.__tooltip.text=filepath
+            self.tooltip.text=filepath
