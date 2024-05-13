@@ -21,11 +21,11 @@ class TypeView(tk.Frame):
         self.grid_rowconfigure(index=0, weight=1)
         self.grid_columnconfigure(index=1, weight=1)
 
-        self.__active_button = self.__string_button
+        self.active_button = self.__string_button
         
     def __toggle_active_button(self, clicked_button):
-        if self.__active_button != clicked_button:
-            if self.__active_button:
-                self.__active_button.config(relief=tk.RAISED)
+        if self.active_button != clicked_button:
+            if self.active_button:
+                self.active_button.config(relief=tk.RAISED)
             clicked_button.config(relief=tk.SUNKEN)
-            self.__active_button = clicked_button
+            self.active_button = clicked_button

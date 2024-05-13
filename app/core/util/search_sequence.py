@@ -1,50 +1,49 @@
-from .matched_log_container import MatchedLogContainer
+from .log_match_registry import LogMatchRegistry
 
 class SearchSequence:
-    def __init__(self, target_filepath="", input_list=[], case_sensitivity=True, sequential_log_lines=False):
+    def __init__(self, target_filepath="", input_list=[], case_sensitivity=True, successive_log_lines=False):
         self.target_filepath = target_filepath
         self.type = type
         self.input_list = input_list
         self.case_sensitivity = case_sensitivity
-        self.sequential_log_lines = sequential_log_lines
-        self.matched_logs = MatchedLogContainer()
+        self.successive_log_lines = successive_log_lines
         
     def execute(self):
-        log_lines = self.__extract_log_from_file()
+        extracted_log_lines = self.__extract_log_from_file()
 
-        if not log_lines:
+        if not extracted_log_lines:
             return False
         
-        is_processed = self.method(log_lines=log_lines)
+        log_match_registry = self.create_log_match_registry(log_lines=extracted_log_lines)
 
-        if not is_processed:
+        if not isinstance(log_match_registry, LogMatchRegistry):
             return False
         
-        has_empty_matched_logs = self.matched_logs.check_empty_matched_log_list()
+        has_empty_matched_logs = log_match_registry.check_empty_matched_log_list()
 
         if has_empty_matched_logs:
             return False
         
-        is_equalized = self.matched_logs.equalize_log_lists()
+        is_equalized = log_match_registry.equalize_log_lists()
 
         if not is_equalized:
             return False
         
-        return self.__establish_sequence()
+        return self.__establish_sequence(log_match_registry)
 
-    def __establish_sequence(self):
+    def __establish_sequence(self, log_match_registry):
         result_list = []
 
-        for log_index in range(self.matched_logs.get_minimum_log_list_length()):
+        for log_index in range(log_match_registry.get_minimum_log_list_length()):
             log_sequence_instance = []
 
             is_sequence_disjointed = False
-            for log_list_index in range(self.matched_logs.count_log_lists()):
-                current_sequence_log = self.matched_logs.get_log(log_list_index=log_list_index, log_index=log_index)
+            for log_list_index in range(log_match_registry.count_log_lists()):
+                current_sequence_log = log_match_registry.get_log(log_list_index=log_list_index, log_index=log_index)
 
-                if self.sequential_log_lines is True:
+                if self.successive_log_lines is True:
                     if log_list_index > 0:
-                        previous_sequence_log = self.matched_logs.get_log(log_list_index=log_list_index-1, log_index=log_index)
+                        previous_sequence_log = log_match_registry.get_log(log_list_index=log_list_index-1, log_index=log_index)
 
                         if previous_sequence_log["log_line"] > current_sequence_log["log_line"]:
                              is_sequence_disjointed = True
@@ -66,5 +65,5 @@ class SearchSequence:
             # print("An error occurred: {}".format(e))
             return False
 
-    def method(self, log_lines):
+    def create_log_match_registry(self, log_lines):
         pass

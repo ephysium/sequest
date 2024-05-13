@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import filedialog
-from .__util import Tooltip
+from .util import Tooltip
 
 """
     App.ControlView.FileView
@@ -38,3 +38,5 @@ class FileView(tk.Frame):
             self.__filename.set(value=filename)
             self.__filename_entry.config(state="disabled")
             self.filepath_tooltip.text=filepath
+
+            self.focus_force()

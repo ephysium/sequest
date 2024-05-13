@@ -1,6 +1,6 @@
 import uuid
 
-class MatchedLogContainer:
+class LogMatchRegistry:
     def __init__(self):
         self.__container = {}
         self.__input_mapping = {}

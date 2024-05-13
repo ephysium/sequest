@@ -1,7 +1,7 @@
 import tkinter as tk
 from .control_view import ControlView
 from .result_view import ResultView
-from ..core import StringSearchSequence
+from ..core import StringSearchSequence, RegexSearchSequence
 
 """
     RootView
@@ -34,12 +34,23 @@ class RootView(tk.Tk):
     def __populate_result(self):
         self.__result_view.result_treeview.delete(*self.__result_view.result_treeview.get_children())
 
-        result = StringSearchSequence(
-            target_filepath=self.__control_view.file_view.filepath_tooltip.text,
-            input_list=list(self.__control_view.query_view.sequence_view.element_listbox.get(0, tk.END)),
-            case_sensitivity=self.__control_view.query_view.boolean_view.case_sensitivity.get(),
-            sequential_log_lines=self.__control_view.query_view.boolean_view.successive_log_lines.get()
-        ).execute()
+        result = []
+
+        if self.__control_view.type_view.active_button.cget("text") == "String Search":
+            result = StringSearchSequence(
+                target_filepath=self.__control_view.file_view.filepath_tooltip.text,
+                input_list=list(self.__control_view.query_view.sequence_view.element_listbox.get(0, tk.END)),
+                case_sensitivity=self.__control_view.query_view.boolean_view.case_sensitivity.get(),
+                successive_log_lines=self.__control_view.query_view.boolean_view.successive_log_lines.get()
+            ).execute()
+
+        elif self.__control_view.type_view.active_button.cget("text") == "Regex Search":
+            result = RegexSearchSequence(
+                target_filepath=self.__control_view.file_view.filepath_tooltip.text,
+                input_list=list(self.__control_view.query_view.sequence_view.element_listbox.get(0, tk.END)),
+                case_sensitivity=self.__control_view.query_view.boolean_view.case_sensitivity.get(),
+                successive_log_lines=self.__control_view.query_view.boolean_view.successive_log_lines.get()
+            ).execute()
 
         if result:
             for sequence_no, sequence_instance in enumerate(result, start=1):

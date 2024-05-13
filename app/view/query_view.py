@@ -3,7 +3,7 @@ from .input_view import InputView
 from .boolean_view import BooleanView
 from .sequence_view import SequenceView
 from .adjust_view import AdjustView
-from .__util import Dialog
+from .util import Dialog
 
 """
     App.ControlView.QueryView

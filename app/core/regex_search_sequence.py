@@ -1,6 +1,7 @@
+import re
 from .util import SearchSequence, LogMatchRegistry
 
-class StringSearchSequence(SearchSequence):
+class RegexSearchSequence(SearchSequence):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -28,7 +29,7 @@ class StringSearchSequence(SearchSequence):
                     if self.case_sensitivity is False:
                         input = input.lower()
 
-                    if input in target_log_statement:
+                    if re.search(input, target_log_statement):
                         log_match_registry.insert_log_value(input_id=input_id, log_line=log_line, log_statement=log_statement)
 
             return log_match_registry
